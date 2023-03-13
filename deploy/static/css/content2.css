@@ -1,0 +1,311 @@
+
+        @font-face {
+            font-family: 'KyoboHandwriting2021sjy';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KyoboHandwriting2021sjy.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'TheJamsil5Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        * {
+            font-family: 'KyoboHandwriting2021sjy', sans-serif;
+        }
+
+        html { 
+            background-color: #FDF6EB;
+        }
+        
+        .mypic {
+            width: 100%;
+            height: 400px;
+            background-position: center;
+            background-size: auto;
+            background-image: url('https://i.ibb.co/D4SqyRL/wish7.png');
+            background-repeat: no-repeat;
+            color: coral;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .wrap{
+            background-color: 
+            #FDF6EB;
+            
+        }
+
+        
+        .button button:hover {
+            
+            background-color: white;
+            outline-style: 2px solid white; 
+            color: coral;
+
+        }
+
+        .logo {
+            width: 100%;
+            height: 300px;
+
+            background-position: center;
+            background-size: 50%;
+
+        }
+        .mypic > h2 {
+            font-family: 'TheJamsil5Bold';
+            font-size: 50px;
+            color: rgb(49, 49, 49);
+        }
+
+        .button {
+            display: inline-flex;
+    
+
+        }
+
+        
+        .button > button{
+            width:150px;
+            height: 50px;
+
+            background: coral;
+            color:white;
+
+            font-size: 20px;
+
+
+            border-radius: 50px;
+
+            border: 1px solid coral;
+
+            margin-top: 30px;
+            margin-right: 15px;
+            margin-left: 15px;
+
+        }        
+        
+        
+        .mybox {
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px coral;
+            margin: 20px auto;
+            border-radius: 10px;
+            background-color: coral;
+            margin-bottom: 30px;
+
+            display: none;
+        }
+        .mybox button{
+            font-size: 20px;
+
+            
+        }
+        
+        
+
+        .mybox2{
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+            border-style: 2px solid black;
+            margin: 20px auto;
+            border-radius: 10px;
+         
+
+            background-color: white;
+
+        }
+        .mybox2>hr{
+            border: none;
+            border-top: 3px dotted rgb(27, 24, 23);
+            color: #fff;
+            background-color: #fff;
+            height: 1px;
+        }
+
+        .deleteBox{
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px #fede84;
+            background-color: #fede84;
+            margin: 20px auto;
+            border-radius: 10px;
+
+            display: none;
+        }
+
+        .deleteBox > input{
+            margin-bottom: 10px;
+        }
+        .deleteBox > button{
+            margin-top: 30px;
+            margin-left: 250px;
+
+            font-size: 20px;
+
+            width:150px;
+            height: 50px;
+
+            background: transparent;
+            color:white;
+
+
+            border-radius: 50px;
+
+            border: 3px solid white;
+
+
+
+        }
+        .mypic > button{
+            width:200px;
+            height: 50px;
+
+            background: transparent;
+            color:white;
+
+            border-radius: 50px;
+
+            border: 1px solid white;
+
+            margin-top: 10px;
+            
+        }
+
+        .mybucket {
+            display: flow;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+        .mybucket > input{
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+
+        .mybucket > button{
+            margin-top: 30px;
+            margin-left: 250px;
+
+            width:150px;
+            height: 50px;
+
+            background: transparent;
+            color:white;
+
+
+            border-radius: 50px;
+
+            border: 3px solid white;
+        }
+        .mybucket > button:hover{
+            border: 4px solid white;
+        }
+
+        .mybox > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+        .mybox > li > h2 {
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+        .mybox > li > h2.done {
+            text-decoration:line-through
+        }
+                
+        .txt-bg3 {background:linear-gradient(180deg,rgba(255,255,255,0) 50%, gold 50%);
+        }
+
+        .wrap > h6 {
+            font-family: 'TheJamsil5Bold';
+            color: rgb(49, 49, 49);
+            text-align: center;            
+        }
+        .emojibox {
+            
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 5px;
+            padding: 5px 6px 5px 9px;
+            width: auto;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            
+        }
+
+        .emobtn {
+            color: coral;
+            background-color: #f7f2e4;
+            margin: 1px 1px 1px 1px;
+            width: 38px;
+            height: 38px;
+            border-radius: 3px;
+            text-align: center;
+            text-size-adjust: auto;
+            border-color: #FFA389;
+        }
+        
+        .mybucket > input + button{
+            margin-top: 30px;
+            margin-left: 250px;
+
+            width:150px;
+            height: 40px;
+
+            background: white;
+            color:coral;
+
+
+            border-radius: 50px;
+
+            border: 3px solid rgb(207, 76, 28);
+        }
+        .mybucket > input + button:hover{
+            color: white;
+            background-color: coral;
+            border: 3px solid white;
+        }
+        .fake {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fake_egg{
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border-radius: 10px ;
+            border: transparent;
+            color: transparent;
+        
+        }
+        
+        .fake_egg:hover{
+            font-size: 20px;
+            color: coral;
+        }

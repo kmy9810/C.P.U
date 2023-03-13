@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="{{ url_for('static', filename='css/content1.css')}}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>동기부여 버킷리스트</title>
+    <style>
+        html { 
+            background-color: #FDF6EB;
+
+            
+        }
+
+    </style>
+    <script>
+		function back_main(){
+			window.location.href = '/'
+		}
+        function post_team() {
+            let team_name = $('#team_name').val()
+            let leader_name = $('#leader_name').val()
+            let pw = $('#pw').val()
+            if (team_name =='' || leader_name=='' || pw==''){
+                alert("조 이름, 조장닉네임, 비밀번호를 모두 입력해주세요")
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: "/teams",
+                    data: {'team_name_give': team_name, 'leader_name_give': leader_name, 'pw_give': pw},
+                    success: function (response) {
+                        if(response["result"]=='success'){
+                            alert(response["msg"])
+                        back_main()
+                        }
+                        else{
+                            alert(response["msg"])
+                        }
+                    }
+                });
+            }
+        }
+
+        function characterCheck(obj){
+            var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+            // 허용할 특수문자는 여기서 삭제하면 됨
+            // 지금은 띄어쓰기도 특수문자 처리됨 참고하셈
+            if( regExp.test(obj.value) ){
+                alert("특수문자와 공백은 입력하실 수 없습니다.");
+                obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
+                }
+            }
+
+	function hey(){
+            alert('힝 이것도 가짜지롱~');
+        }	
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="title">
+            <br><br>
+            <h1>우리 조 만들기</h1>
+        </div>
+
+        <div class="create-title" id="create-box">
+            <div class="mb-3">
+                <label for="team_name" class="form-label">조 이름 :</label>
+                <input type="text" class="form-control" id="team_name" maxlength='7'
+                onkeyup="characterCheck(this)" onkeydown="characterCheck(this)" placeholder="조 이름을 입력하세요(최대7글자)">
+            </div>
+            <div class="mb-3">
+                <label for="leader_name" class="form-label">팀장 닉네임 :</label>
+                <input type="text" class="form-control" id="leader_name" placeholder="팀장 닉네임을 입력하세요">
+            </div>
+            <div class="mb-3">
+                <label for="pw" class="form-label">비밀번호 :</label>
+                <input type="password" class="form-control" id="pw" placeholder="삭제시 사용할 비밀번호를 입력하세요">
+            </div>
+            <div class="mybutton">
+                <button onclick="back_main()" style="background-color: #FDD875">돌아가기</button>
+                <button onclick="post_team();" style="background-color: #43EB81">등록하기</button>
+            </div>
+        </div>
+       
+    <div>
+        <img class="campingimg" src="{{ url_for('static', filename='images/camping.png') }}">
+        <div class="fake">
+            <button class="fake_egg" onclick="hey()"> 개 발 </button>
+        </div>        
+    </div>
+    
+    </div>   
+</body>
+
+</html>

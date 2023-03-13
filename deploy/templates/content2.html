@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{{ url_for('static', filename='css/content2.css')}}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+    <title>동기부여 버킷리스트</title>
+
+    <style>
+        
+
+        
+
+    </style>
+    <script>
+        var state = [0,0,0] // 각 입력 박스들의 열림/닫힘 상태
+        var emojis = [
+            '🌈', '🍗', '🍺', '🍮', '🍜', '🧄','🍒', '🍑', '🍉', '🎀', '🌱', '🤹‍♀️','🦜', '🐷', '🐮', '🐯',
+            '🐭', '🌜', '⏰', '⛵', '🚚', '🗻', '🍫', '🎂', '🧆', '🥝', '🐠', '🐟', '🐙', '🦈', '🐛', '🦋',
+            '🐝', '🐞', '🦗', '🦕', '💻', '👨', '🫶', '💌', '💘', '🧙', '🧚', '🧜', '🥂', '🥃', '🍻', '🍹',
+            '🍸', '🍷', '💍', '⭐️', '💧', '🪂', '🎨', '🎲', '🎵', '🇰🇷', '🎁', '🔅', '✅', '💈', '🦠', '🧸'
+        ]
+        var selected_emoji = '🌈'
+		var link=document.location.href
+		const Url = decodeURI(link);
+		var team_name = Url.slice(67,-1)
+        $(document).ready(function () {
+            show_bucket();
+            list_emoji();
+        });
+        //인덱스 번호를 받아 이모지를 선택한다.
+        function emoji_select(e_index) {
+            selected_emoji = emojis[e_index] //선택된 이모지 var 반영
+            for (let i = 0; i < emojis.length; i++) { // 전체 이모지 버튼 스타일을 클릭되지 않은 스타일로 변경
+                $('#emo' + i).css('background-color', '#f7f2e4')
+            }
+            $('#selected_emoji').text(emojis[e_index]) // '이모지선택:' 버튼에 반영
+            $('#emo' + e_index).css('background-color', ' #FDD875') //선택된 이모지 버튼을 어둡게 변경
+        }
+        //이모지 선택창을 동적으로 생성
+        function list_emoji() {
+            $('#emojibox').hide()// 창 숨기고 시작
+            for (let i = 0; i < emojis.length; i++) {//i로 id지정, 함수호출
+                temp_html = `<button class="emobtn" id="emo${i}" onclick="emoji_select(${i})">${emojis[i]}</button>`
+                $('#emojibox').append(temp_html)
+            }
+            $('#emo' + 0).css('background-color', '#dbad43')//기본 이모지 선택됨 표시
+        }
+
+        function show_bucket() {
+            $('#bucket-list').empty()
+			$('#team_name').text(team_name)
+            $.ajax({
+                type: "GET",
+                url: "/list/"+team_name+'/data',
+                data: {},
+                success: function (response) {
+                    
+                    let rows = response['result']
+                    if (rows.length ==0){
+                        let temp_html = `<h2>아직 버킷리스트가 없습니다!</h2>
+                                        <h5>지금 첫 버킷리스트를 작성해 보세요</h5>`
+                        $('#bucket-list').append(temp_html)
+                        return;
+                    }
+
+                    let total_done = response['total_done']
+                        let total_rows = rows.length
+                        let total =`df`
+
+                        
+
+                    if (total_done == 0){
+                        let total2 = `버킷을 완료하면 하트가 생겨요~!`
+                        $('#bucket-list').append(total2)
+                    }           
+
+                    for (let i = 0; i <= total_done; i++){
+                            if (i == 0){
+                                total=``
+                            } else {
+                                total='🧡'
+                            }
+                            
+                        $('#bucket-list').append(total)                     
+                    }
+
+
+
+
+
+
+					console.log(rows)
+                    for (let i = 0; i < rows.length; i++) {
+                        let bucket = rows[i]['content']
+                        let done = rows[i]['done']
+                        let num = rows[i]['num']
+                        let name = rows[i]['name']
+                        let date = rows[i]['date']
+                        let star = rows[i]['star']
+                        let emo = rows[i]['emo']
+
+                        
+
+
+                        let year = new Date(date).getFullYear().toString()
+                        let month = new Date(date).getUTCMonth() + 1
+                        let day = new Date(date).getUTCDate()
+                        let strdate = `${year}.${month}.${day}`
+
+                        let temp_html = `<h2>아직 버킷리스트가 없습니다!</h2>
+                                        <h5>지금 첫 버킷리스트를 작성해 보세요</h5>`
+                        if (done == 0) {
+                            temp_html = `<div style="margin-bottom:60px; margin-top:30px; list-style:none;">
+                                    <h2>${emo}&nbsp;&nbsp;${bucket}</h2><br>
+                                    <h5 style="text-align:right;">중요도 : ${star}&nbsp;&nbsp; 작성자 : ${name} &nbsp;&nbsp;(${strdate})</h5><br>
+                                    <button onclick="toggle_bucket(${num},${1})" type="button" class = "btn text-white" 
+                                        style="border:1px solid coral; background-color: coral; border-radius: 5px; display:inline-block; float:right;">완료!</button>
+                                    <button onclick="delete_bucket(${num})" type="button"  class = "btn" 
+                                        style=" border:1px solid coral; border-radius: 5px; color: coral; background-color:white; display:inline-block; float:left;">삭제!</button>
+                                </div><hr>`
+                        } else {
+                            temp_html = `<div style="margin-bottom:60px; margin-top:30px; list-style:none;">
+                                    <h2>💯&nbsp;&nbsp;<span class="txt-bg3">🎉🎉🎉${bucket}🎉🎉🎉</span></h2><br>
+                                    <h5 style="text-align:right;">작성자 : ${name} &nbsp;&nbsp;(${strdate})</h5><br>
+                                    <button onclick="toggle_bucket(${num}, ${0})" type="button" class="btn text-white"   
+                                        style="border:1px solid coral; background-color: coral; border-radius: 5px; display:inline-block; float:right;">완료 취소!</button>
+                                    <button onclick="delete_bucket(${num})" type="button" class = "btn" 
+                                        style= "border: 1px solid coral; color: coral; border-radius: 5px; background-color:white; display:inline-block; float:left;">삭제!</button>
+                                </div><hr>`
+                        }
+
+    
+                        $('#bucket-list').append(temp_html)
+                        
+                    }
+                    
+                }
+            });
+        }
+
+
+        function save_bucket() {
+            let bucket = $('#bucket').val()
+            let name = $('#floatingInput').val()
+            let star = $("select[name=star] option:selected").text()
+            let emo = selected_emoji
+            if (bucket.trim() =='' || name.trim()==''){
+                alert("내용과 작성자이름을 입력해주세요")
+                return ;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/list/"+team_name,
+                data: {content_give: bucket,
+                        star_give: star,
+                        name_give: name,
+                        emo_give: emo},
+                success: function (response) {
+                    if (response["msg"]=='버킷리스트가 생성되었습니다.'){
+                        alert(response["msg"])
+                        window.location.reload()
+                    } else {
+                        alert(response["msg"])
+                    }
+                    
+                }
+            });
+        }
+
+
+        function toggle_bucket(num, state){
+            $.ajax({
+                type: "PUT",
+                url: "/list/"+team_name,
+                data: {'num_give': num, 'state_give': state},
+                success: function (response) {
+                    alert(response["msg"])
+                    console.log(response)
+                    window.location.reload()
+                }
+            });
+        }
+
+        function delete_page(){
+			let input_pw = $('#writePW').val()
+			let input_leader_name=$('#writeName').val()
+            $.ajax({
+                type: "DELETE",
+                url: "/teams/"+team_name,
+                data: {'input_pw_give':input_pw, 'input_leader_name_give':input_leader_name},
+                success: function (response) {
+                    if(response['result']=='success'){
+                        alert(response["msg"])
+                        console.log(response)
+                        window.location.href = '/'
+                    }
+                    else{
+                        alert(response["msg"])
+                    }
+                    
+                }
+            });
+        }
+        
+        function delete_bucket(num){
+            if (confirm("정말 삭제하시겠습니까??") == true) {    //확인
+                $.ajax({
+                type: "DELETE",
+                url: "/list/"+team_name,
+                data: {'num_give': num},
+                success: function (response) {
+                    alert(response["msg"])
+                    console.log(response)
+                    window.location.reload()
+                }
+            });
+            } else {   //취소
+                return false;
+            }            
+        }
+
+        function open_box(){
+            if (state[0]==0){
+                $('#post-box').show()
+                state[0]=1
+            }
+            else{
+                $('#post-box').hide()
+                state[0]=0
+            }
+        }
+
+        function open_deletebox(){
+            if (state[1]==0){
+                $('#delete-box').show()
+                state[1]=1
+            }
+            else{
+                $('#delete-box').hide()
+                state[1]=0
+            }
+        }
+        function open_emojibox() {
+            if (state[2] == 0) {
+                $('#emojibox').show()
+                state[2] = 1
+            }
+            else {
+                $('#emojibox').hide()
+                state[2] = 0
+            }
+        }
+    
+        function hey(){
+            alert('힝 이것도 가짜지롱~');
+        }	
+
+       
+    </script>
+</head>
+<body>
+    <div class = "wrap">
+        <div class="mypic">
+            <br><br><br><br><br><br>
+            <h2 id="team_name">하이</h2>
+            <br>
+            <div class="button">
+                <button onclick="open_box()"  >기록하기</button>
+                <button onclick="location.href='/'"   >홈</button>
+                <button onclick="open_deletebox()"  >페이지 삭제</button>
+            </div>
+
+        </div>
+
+        <div class="fake">
+            <button class="fake_egg" onclick="hey()"> 클릭! </button>
+        </div>   
+        <div class="search" style="margin-bottom: 20px; margin: 0px auto; text-align: center; ">
+            <form action="https://www.melon.com/search/total/index.htm?"  method="GET" target="_blank">
+                <input placeholder="듣고 싶은 음악 검색" name="q" type="text"  style="width:200px;height: 40px; border-color: transparent; border-radius: 10px; margin-right: 5px;">
+                <button onclick="music()" style="width: 60px; height: 40px;background-color: coral; color:white; border-radius: 10px;border-color: transparent; ">검색</button>
+            </form>
+        </div>     
+            
+        <div class="mybox" id="post-box">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">이름</label>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">중요도</label>
+                <select name="star" class="form-select" id="inputGroupSelect01">
+                    <option selected>&#45;&#45;선택하기&#45;&#45;</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+            
+
+            <div class="mybucket">
+                <input class="form-control" id="bucket" type="text" placeholder="이루고 싶은 것을 입력하세요">
+                <button onclick="open_emojibox()" type="button">아이콘 선택:<span id="selected_emoji">🌈</span></button>
+                <div class="emojibox" id="emojibox">
+
+                </div>
+                <button onclick="save_bucket()" type="button">기록하기</button>
+            </div>
+        </div>
+
+        <div class="deleteBox" id="delete-box">
+                <input type="email" class="form-control" id="writeName" placeholder="팀장이름">
+                <input class="form-control" id="writePW" type="text" placeholder="비밀번호">
+                <button onclick="delete_page()" type="button" >삭제하기</button>
+
+        </div>
+        <div class="mybox2" id="bucket-list">
+            <button onclick="delete_page()" type="button" >삭제하기</button>
+        </div>
+
+        <h6>copyright © c.p.u</h6>
+    </div>
+</body>
+</html>

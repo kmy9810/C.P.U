@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="{{ url_for('static', filename='css/index.css')}}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="C.P.U(CamPbUcket)" />
+    <meta property="og:description" content="우리만의 버킷리스트" />
+    <meta property="og:image" content="{{ url_for('static', filename='images/pingog.png') }}" />
+
+    <title>동기부여 버킷리스트</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <style>
+        html { 
+            background: url('static/images/background.jpg') no-repeat center fixed;
+            background-size: cover;
+        }
+        body {
+            margin: 0;
+        }
+        .main_title {
+            background-image: url('../static/images/ping.png');
+        }
+
+        .fix1{
+            background-image: url('static/images/background.jpg');
+        }
+
+    </style>
+<script>
+        $(document).ready(function(){
+            listing();
+            ranks();
+            $('#rankbox_all').hide()
+            $('#rankbox0').hide()
+            $('#rankbox1').hide()
+        });
+        var state =[0,0]
+        function rankopen(rankIndex){
+            if(state[rankIndex]==0 && state[rankIndex]==0){
+                $('#rankbox_all').show()
+            }
+            $('#rankbox0').hide()
+            $('#rankbox1').hide()
+            if(state[rankIndex]==1){
+                state[rankIndex]=0
+                $('#rankbox'+rankIndex).hide()
+            }
+            else{
+                state[rankIndex]=1
+                state[(rankIndex+1)%2]=0
+                $('#rankbox'+rankIndex).show()
+            }
+            if(state[rankIndex]==0 && state[rankIndex]==0){
+                $('#rankbox_all').hide()
+            }
+        }
+		function ranks(){
+            $.ajax({
+                type: 'GET',
+                url: '/rank',
+                data: {},
+                success: function (response) {
+                    let rows1=response['result1']
+                    let rows2=response['result2']
+                    console.log(response)
+                    let s1=[]
+                    let s2=[]
+                    for(let i = 0; i < 5; i++) {
+                        s1.push(rows1[i]['score1'])
+                        s2.push(rows2[i]['score2'])
+                    }
+                    for(let i = 0; i < 5; i++) {
+                        let name1=rows1[i]['team_name']
+                        let rank1=s1.indexOf(rows1[i]['score1'])+1
+                        let name2=rows2[i]['team_name']
+                        let rank2=s2.indexOf(rows2[i]['score2'])+1
+                        let temp_html1=`
+                            <div class ="rankline">
+                            <div class="ranknum">#${rank1}&nbsp;&nbsp;</div> 
+                            <div class = "rankteam">${name1}&nbsp;&nbsp;</div> 
+                            <div class="score">(전체 점수:${rows1[i]['score1']},&nbsp;&nbsp;달성 점수:${rows1[i]['score2']})</div>
+                            </div>
+                            `
+                        let temp_html2=`
+                            <div class ="rankline">
+                            <div class="ranknum">#${rank2}&nbsp;&nbsp;</div> 
+                            <div class = "rankteam">${name2}&nbsp;&nbsp;</div>
+                            <div class="score">(달성 점수:${rows2[i]['score2']},&nbsp;&nbsp;전체 점수:${rows2[i]['score1']})</div>
+                            </div>
+                            `
+                        
+                        $('#rankbox0').append(temp_html1)
+                        $('#rankbox1').append(temp_html2)
+                    }
+                    
+
+                }
+            })
+        }
+        function listing() {
+            $('#cards-box').empty()
+			let strArray = ['#ff7f50','#9acd32','#ffd700','#9acd32','#ff7f50','#9acd32','#ffd700'];
+            
+            $.ajax({
+                type: 'GET',
+                url: '/teams',
+                data: {},
+                success: function (response) {
+
+					console.log(response)
+                    let rows = response['result']
+                    for(let i = 0; i < rows.length; i++) {
+						let randomValue = strArray[i%7];
+                        let team_name = rows[i]['team_name']
+						let temp_html = ` 
+                                            <div class="team_box" id="color${i}" style="background:${randomValue};">
+                                            <h1 id="team_name"> ${team_name} </h1>
+                                            <button onclick="location.href='/list/${team_name}/'"> 버킷리스트 가기 </button>
+                                            </div>
+                                        
+                                            `
+                $('#cards-box').append(temp_html)
+                    }
+
+                    // let a =`<div class="fix1"></div>`
+                    // $('#cards-box').append(a)
+
+                }
+            })
+            
+        }
+        function hey(){
+            alert('이스터 에그가 있습니다 찾아보세요~');
+        }
+    
+</script>
+</head>
+
+<body>
+<div class="fix1">
+    <div class="main_title">
+        <button class="egg" onclick="location.href='/egg'">핑</button>
+        <h1></h1>
+        <button onclick="location.href='/create-team'">조 등록하기</button>
+    </div>
+    <div class="fake">
+        <button class="fake_egg" onclick="hey()"> 여기를 눌러보세요! </button>
+    </div>
+    <div class="rankbutton">
+        <button onclick="rankopen(0)" >랭킹(전체점수)</button>
+        <button onclick="rankopen(1)">랭킹(달성점수)</button>
+    </div>
+    <div class="rankbox" id="rankbox_all" style="margin: 10px auto 10px auto">
+        <div id="rankbox0"></div>
+        <div id="rankbox1"></div>
+    </div>     
+    <div id="cards-box">
+        <div id="team_box" class="team_box">
+            <h1 id="team_name"> 핑핑이집사단 </h1>
+            <button onclick="location.href='/list/핑핑이집사단/'"> 버킷리스트 가기 </button>
+        </div>
+        <div id="team_box" class="team_box">
+            <h1 id="team_name"> 핑핑이집사단 </h1>
+            <button onclick="location.href='/list/핑핑이집사단/'"> 버킷리스트 가기 </button>
+        </div>
+    </div>
+    <h6>copyright © c.p.u</h6>
+</div>
+
+</body>
+
+</html>
